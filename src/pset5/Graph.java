@@ -14,9 +14,8 @@ public class Graph {
 	// numNodes is number of rows in "edges"
 
 	public Graph(int size) {
+		edges = new boolean[size][size];
 		numNodes = size;
-		// your code goes here
-		// ...
 	}
 	
 	public String toString() {
@@ -32,18 +31,41 @@ public class Graph {
 		// postcondition: adds a directed edge "from" -> "to" to this graph
 		// your code goes here
 		//...
+		edges[from][to] = true;
 	}
 	
 	public boolean reachable(Set<Integer> sources, Set<Integer> targets) {
 		if (sources == null || targets == null) throw new IllegalArgumentException();
-		// postcondition: returns true if (1) "sources" does not contain an illegal node,
-		//(2) "targets" does not contain an illegal node, and
-		//(3) for each node "m" in set "targets", there is some
-		//node "n" in set "sources" such that there is a directed
-		//path that starts at "n" and ends at "m" in "this"; and
-		//false otherwise
-		//your code goes here
-		//...
+		
+		boolean found = false;
+		for(Integer target : targets) {
+			for(Integer source : sources) {
+				// postcondition: returns true if (1) "sources" does not contain an illegal node,
+				if(source < 0 || source >= numNodes) return false;
+				//(2) "targets" does not contain an illegal node, and
+				if(target < 0 || target >= numNodes) return false;
+				//(3) for each node "m" in set "targets", there is some
+				//node "n" in set "sources" such that there is a directed
+				//path that starts at "n" and ends at "m" in "this"; and
+				//false otherwise
+				//your code goes here
+				//...
+				if(searchPath(target, source)) found = true;
+			}
+			if(!found) return false;
+			found = false;
+		}
+		return true;
+	}
+	
+	public boolean searchPath(Integer from, Integer to) {
+		if(edges[from][to]) return true;
+		
+		for(int i = 0; i < numNodes; i++) {
+			if(edges[from][i]) 
+				if(searchPath(i, to)) return true;
+		}
+		
 		return false;
 	}
 }
