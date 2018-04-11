@@ -11,8 +11,32 @@ public class GraphTester {
 	@Test public void tae0() {
 		Graph g = new Graph(2);
 		g.addEdge(0, 1);
-		System.out.println(g);
+		//System.out.println(g);
 		assertEquals(g.toString(), "numNodes: 2\nedges: [[false, true], [false, false]]");
+	}
+	@Test public void tae1() {
+		Graph g = new Graph(1);
+		g.addEdge(0, 0);
+		//System.out.println(g);
+		assertEquals(g.toString(), "numNodes: 1\nedges: [[true]]");
+	}
+	@Test public void tae2() {
+		Graph g = new Graph(3);
+		g.addEdge(0, 1);
+		//System.out.println(g);
+		assertEquals(g.toString(), "numNodes: 3\nedges: [[false, true, false], [false, false, false], [false, false, false]]");
+	}
+	@Test public void tae3() {
+		Graph g = new Graph(3);
+		g.addEdge(1, 1);
+		//System.out.println(g);
+		assertEquals(g.toString(), "numNodes: 3\nedges: [[false, false, false], [false, true, false], [false, false, false]]");
+	}
+	@Test public void tae4() {
+		Graph g = new Graph(3);
+		g.addEdge(2, 2);
+		//System.out.println(g);
+		assertEquals(g.toString(), "numNodes: 3\nedges: [[false, false, false], [false, false, false], [false, false, true]]");
 	}
 	// your tests for method "addEdge" in class "Graph" go here
 	// you must provide at least 4 test methods;
@@ -27,6 +51,30 @@ public class GraphTester {
 	//...
 	//tests for method "reachable" in class "Graph"
 	@Test public void tr0() {
+		Graph g = new Graph(1);
+		Set<Integer> nodes = new TreeSet<Integer>();
+		nodes.add(0);
+		assertTrue(g.reachable(nodes, nodes));
+	}
+	@Test public void tr1() {
+		Graph g = new Graph(1);
+		Set<Integer> nodes = new TreeSet<Integer>();
+		nodes.add(0);
+		assertTrue(g.reachable(nodes, nodes));
+	}
+	@Test public void tr2() {
+		Graph g = new Graph(1);
+		Set<Integer> nodes = new TreeSet<Integer>();
+		nodes.add(0);
+		assertTrue(g.reachable(nodes, nodes));
+	}
+	@Test public void tr3() {
+		Graph g = new Graph(1);
+		Set<Integer> nodes = new TreeSet<Integer>();
+		nodes.add(0);
+		assertTrue(g.reachable(nodes, nodes));
+	}
+	@Test public void tr4() {
 		Graph g = new Graph(1);
 		Set<Integer> nodes = new TreeSet<Integer>();
 		nodes.add(0);

@@ -48,8 +48,6 @@ public class Graph {
 				//node "n" in set "sources" such that there is a directed
 				//path that starts at "n" and ends at "m" in "this"; and
 				//false otherwise
-				//your code goes here
-				//...
 				if(searchPath(target, source)) found = true;
 			}
 			if(!found) return false;
@@ -59,6 +57,7 @@ public class Graph {
 	}
 	
 	public boolean searchPath(Integer from, Integer to) {
+		if(from.equals(to)) return true;
 		if(edges[from][to]) return true;
 		
 		for(int i = 0; i < numNodes; i++) {
