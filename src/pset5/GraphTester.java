@@ -22,15 +22,15 @@ public class GraphTester {
 	}
 	@Test public void tae2() {
 		Graph g = new Graph(3);
-		g.addEdge(0, 1);
+		g.addEdge(0, 3);
 		//System.out.println(g);
-		assertEquals(g.toString(), "numNodes: 3\nedges: [[false, true, false], [false, false, false], [false, false, false]]");
+		assertEquals(g.toString(), "numNodes: 3\nedges: [[false, false, false], [false, false, false], [false, false, false]]");
 	}
 	@Test public void tae3() {
 		Graph g = new Graph(3);
-		g.addEdge(1, 1);
+		g.addEdge(-1, 1);
 		//System.out.println(g);
-		assertEquals(g.toString(), "numNodes: 3\nedges: [[false, false, false], [false, true, false], [false, false, false]]");
+		assertEquals(g.toString(), "numNodes: 3\nedges: [[false, false, false], [false, false, false], [false, false, false]]");
 	}
 	@Test public void tae4() {
 		Graph g = new Graph(3);
@@ -50,35 +50,61 @@ public class GraphTester {
 	// declared in the Graph class as given in this homework
 	//...
 	//tests for method "reachable" in class "Graph"
-	@Test public void tr0() {
+	@Test public void tr0() {	//Can reach itself
 		Graph g = new Graph(1);
 		Set<Integer> nodes = new TreeSet<Integer>();
 		nodes.add(0);
 		assertTrue(g.reachable(nodes, nodes));
 	}
-	@Test public void tr1() {
-		Graph g = new Graph(1);
+	@Test public void tr1() {	//no source goes to target node[1] --> returns false
+		Graph g = new Graph(3);
+		g.addEdge(0, 2);
+		g.addEdge(2, 0);
 		Set<Integer> nodes = new TreeSet<Integer>();
 		nodes.add(0);
-		assertTrue(g.reachable(nodes, nodes));
+		nodes.add(2);
+		Set<Integer> nodes2 = new TreeSet<Integer>();
+		nodes2.add(0);
+		nodes2.add(1);	//HERE
+		assertFalse(g.reachable(nodes, nodes2));
 	}
-	@Test public void tr2() {
-		Graph g = new Graph(1);
+	@Test public void tr2() {	//source node out of bounds
+		Graph g = new Graph(3);
+		g.addEdge(0, 2);
+		g.addEdge(2, 0);
 		Set<Integer> nodes = new TreeSet<Integer>();
-		nodes.add(0);
-		assertTrue(g.reachable(nodes, nodes));
+		nodes.add(-1);	//HERE
+		nodes.add(2);
+		Set<Integer> nodes2 = new TreeSet<Integer>();
+		nodes2.add(0);
+		nodes2.add(1);
+		assertFalse(g.reachable(nodes, nodes2));
 	}
-	@Test public void tr3() {
-		Graph g = new Graph(1);
+	@Test public void tr3() {	//target node out of bounds
+		Graph g = new Graph(3);
+		g.addEdge(0, 2);
+		g.addEdge(2, 0);
 		Set<Integer> nodes = new TreeSet<Integer>();
 		nodes.add(0);
-		assertTrue(g.reachable(nodes, nodes));
+		nodes.add(2);
+		Set<Integer> nodes2 = new TreeSet<Integer>();
+		nodes2.add(0);
+		nodes2.add(4); 	//HERE
+		assertFalse(g.reachable(nodes, nodes2));
 	}
-	@Test public void tr4() {
-		Graph g = new Graph(1);
+	@Test public void tr4() {	//target node is 0-3 edges away
+		Graph g = new Graph(4);
+		g.addEdge(0, 1);
+		g.addEdge(1, 2);
+		g.addEdge(2, 3);
 		Set<Integer> nodes = new TreeSet<Integer>();
 		nodes.add(0);
-		assertTrue(g.reachable(nodes, nodes));
+		Set<Integer> nodes2 = new TreeSet<Integer>();
+		nodes2.add(0);
+		nodes2.add(1);
+		nodes2.add(2);
+		nodes2.add(3);
+		assertTrue(g.reachable(nodes, nodes2));
 	}
 	//your tests for method "reachable" in class "Graph" go here
 	//you must provide at least 6 test methods;

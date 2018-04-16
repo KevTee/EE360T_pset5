@@ -31,6 +31,8 @@ public class Graph {
 		// postcondition: adds a directed edge "from" -> "to" to this graph
 		// your code goes here
 		//...
+		if(from < 0 || from >= numNodes) return;
+		if(to < 0 || to >= numNodes) return;
 		edges[from][to] = true;
 	}
 	
