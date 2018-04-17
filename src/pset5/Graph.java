@@ -1,5 +1,6 @@
 package pset5;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -7,6 +8,7 @@ public class Graph {
 	
 	private int numNodes; // number of nodes in the graph
 	private boolean[][] edges;
+	private ArrayList<Integer> visited;
 
 	// edges[i][j] is true if and only if there is an edge from node i to node j
 	// class invariant: fields "edges" is non-null;
@@ -15,6 +17,7 @@ public class Graph {
 
 	public Graph(int size) {
 		edges = new boolean[size][size];
+		visited = new ArrayList<Integer>();
 		numNodes = size;
 	}
 	
@@ -50,7 +53,7 @@ public class Graph {
 				//node "n" in set "sources" such that there is a directed
 				//path that starts at "n" and ends at "m" in "this"; and
 				//false otherwise
-				if(searchPath(target, source)) found = true;
+				if(searchPath(source, target)) found = true;
 			}
 			if(!found) return false;
 			found = false;
@@ -63,10 +66,15 @@ public class Graph {
 		if(edges[from][to]) return true;
 		
 		for(int i = 0; i < numNodes; i++) {
-			if(edges[from][i]) 
-				if(searchPath(i, to)) return true;
+			if(edges[from][i] && !from.equals(i) && !visited.contains(i)) {
+				visited.add(from);
+				if(searchPath(i, to)) {
+					visited.clear();
+					return true;
+				}
+			}
 		}
-		
+		visited.clear();
 		return false;
 	}
 }

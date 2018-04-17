@@ -28,11 +28,23 @@ public class GraphTester {
 	}
 	@Test public void tae3() {
 		Graph g = new Graph(3);
-		g.addEdge(-1, 1);
+		g.addEdge(0, -1);
 		//System.out.println(g);
 		assertEquals(g.toString(), "numNodes: 3\nedges: [[false, false, false], [false, false, false], [false, false, false]]");
 	}
 	@Test public void tae4() {
+		Graph g = new Graph(3);
+		g.addEdge(-1, 0);
+		//System.out.println(g);
+		assertEquals(g.toString(), "numNodes: 3\nedges: [[false, false, false], [false, false, false], [false, false, false]]");
+	}
+	@Test public void tae5() {
+		Graph g = new Graph(3);
+		g.addEdge(3, 0);
+		//System.out.println(g);
+		assertEquals(g.toString(), "numNodes: 3\nedges: [[false, false, false], [false, false, false], [false, false, false]]");
+	}
+	@Test public void tae6() {
 		Graph g = new Graph(3);
 		g.addEdge(2, 2);
 		//System.out.println(g);
@@ -80,7 +92,31 @@ public class GraphTester {
 		nodes2.add(1);
 		assertFalse(g.reachable(nodes, nodes2));
 	}
-	@Test public void tr3() {	//target node out of bounds
+	@Test public void tr3() {	//source node out of bounds
+		Graph g = new Graph(3);
+		g.addEdge(0, 2);
+		g.addEdge(2, 0);
+		Set<Integer> nodes = new TreeSet<Integer>();
+		nodes.add(4);	//HERE
+		nodes.add(2);
+		Set<Integer> nodes2 = new TreeSet<Integer>();
+		nodes2.add(0);
+		nodes2.add(1);
+		assertFalse(g.reachable(nodes, nodes2));
+	}
+	@Test public void tr4() {	//target node out of bounds
+		Graph g = new Graph(3);
+		g.addEdge(0, 2);
+		g.addEdge(2, 0);
+		Set<Integer> nodes = new TreeSet<Integer>();
+		nodes.add(0);
+		nodes.add(2);
+		Set<Integer> nodes2 = new TreeSet<Integer>();
+		nodes2.add(0);
+		nodes2.add(-1); 	//HERE
+		assertFalse(g.reachable(nodes, nodes2));
+	}
+	@Test public void tr5() {	//target node out of bounds
 		Graph g = new Graph(3);
 		g.addEdge(0, 2);
 		g.addEdge(2, 0);
@@ -92,7 +128,7 @@ public class GraphTester {
 		nodes2.add(4); 	//HERE
 		assertFalse(g.reachable(nodes, nodes2));
 	}
-	@Test public void tr4() {	//target node is 0-3 edges away
+	@Test public void tr6() {	//target node is 0-3 edges away
 		Graph g = new Graph(4);
 		g.addEdge(0, 1);
 		g.addEdge(1, 2);
@@ -105,6 +141,69 @@ public class GraphTester {
 		nodes2.add(2);
 		nodes2.add(3);
 		assertTrue(g.reachable(nodes, nodes2));
+	}
+	@Test public void tr7() {	//exception from targets
+		Graph g = new Graph(3);
+		g.addEdge(0, 2);
+		g.addEdge(2, 0);
+		Set<Integer> nodes = null;
+		Set<Integer> nodes2 = new TreeSet<Integer>();
+		try {
+			g.reachable(nodes, nodes2);	//HERE
+		}catch(IllegalArgumentException e) { 
+			System.out.println("exception hit");
+		}
+	}
+	@Test public void tr8() {	//exception from sources
+		Graph g = new Graph(3);
+		g.addEdge(0, 2);
+		g.addEdge(2, 0);
+		Set<Integer> nodes2 = null;
+		Set<Integer> nodes = new TreeSet<Integer>();
+		try {
+			g.reachable(nodes, nodes2);	//HERE
+		}catch(IllegalArgumentException e) { 
+			System.out.println("exception hit");
+		}
+	}
+	@Test public void tr9() {	//no source goes to target node[1] --> returns false
+		Graph g = new Graph(4);
+		g.addEdge(0, 1);
+		g.addEdge(1, 2);
+		g.addEdge(2, 0);
+		Set<Integer> nodes = new TreeSet<Integer>();
+		nodes.add(0);
+		nodes.add(1);
+		nodes.add(2);
+		Set<Integer> nodes2 = new TreeSet<Integer>();
+		nodes2.add(0);
+		nodes2.add(3);	//HERE
+		assertFalse(g.reachable(nodes, nodes2));
+	}
+	
+	@Test public void tr10() {	//empty target, returns true
+		Graph g = new Graph(4);
+		g.addEdge(0, 1);
+		g.addEdge(1, 2);
+		g.addEdge(2, 0);
+		Set<Integer> nodes = new TreeSet<Integer>();
+		nodes.add(0);
+		nodes.add(1);
+		nodes.add(2);
+		Set<Integer> nodes2 = new TreeSet<Integer>();
+		assertTrue(g.reachable(nodes, nodes2));
+	}
+	
+	@Test public void tr11() {	//empty source returns false
+		Graph g = new Graph(4);
+		g.addEdge(0, 1);
+		g.addEdge(1, 2);
+		g.addEdge(2, 0);
+		Set<Integer> nodes = new TreeSet<Integer>();
+		Set<Integer> nodes2 = new TreeSet<Integer>();
+		nodes2.add(0);
+		nodes2.add(3);	//HERE
+		assertFalse(g.reachable(nodes, nodes2));
 	}
 	//your tests for method "reachable" in class "Graph" go here
 	//you must provide at least 6 test methods;
